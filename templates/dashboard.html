@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Vehicle Sound Annoyance Survey Dashboard</h2>
+    
+    <div class="section">
+        <h3>Summary</h3>
+        <ul>
+            <li><strong>Total Experiments:</strong> {{ total_experiments }}</li>
+            <li><strong>Total Questions:</strong> {{ total_questions }}</li>
+            <li><strong>Total Media Files:</strong> {{ total_media }}</li>
+            <li><strong>Total Responses:</strong> {{ total_responses }}</li>
+        </ul>
+    </div>
+
+    <h4>Experiments by participant</h4>
+    <div style="max-height: 200px; overflow-y: auto;">
+    <table border="1">
+        <tr><th>Experiment Code</th><th>Experiment</th><th>Total Responses</th></tr>
+        {% for row in top_experiments %}
+        <tr>
+            <td>{{ row.ExperimentCode }}</td>
+            <td>{{ row.Description }}</td>
+            <td>{{ row.total_responses }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+    
+    <a href="{{ url_for('download_top_experiments') }}">Download Experiments (CSV)</a>
+    <h4>Recent Responses</h4>
+    <div style="max-height: 200px; overflow-y: auto;">
+    <table border="1">
+        <tr><th>Experiment</th><th>Question</th><th>Answer</th><th>Duration</th><th>Date</th></tr>
+        {% for row in recent_responses %}
+        <tr>
+            <td>{{ row.ExperimentCode }}</td>
+            <td>{{ row.QuestionText }}</td>
+            <td>{{ row.Answer }}</td>
+            <td>{{ row.Duration }}</td>
+            <td>{{ row.CreatedTime }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+    
+    <a href="{{ url_for('download_recent_responses') }}">Download Responses (CSV)</a>
+    
+
+    <style>
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            margin: 20px; 
+            padding: 0;
+            min-height: 100vh;
+            color: #333; 
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto; 
+            padding: 0 20px;
+        }
+
+        .section {
+            background-color: rgb(252, 247, 247);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        
+        h2 {
+            font-size: 1.6em; 
+            color: #007BFF; 
+            margin-bottom: 25px;
+            text-align: center; 
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: #28a745; 
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            text-align: center; 
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            
+        }
+
+       
+        .section ul {
+            list-style: none;
+            padding: 0;
+            text-align: center; 
+
+        }
+
+        .section li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .section strong {
+            font-weight: bold;
+            color: #007BFF; 
+        }
+
+        
+        table {
+            width: auto;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        tbody {
+        display: block; 
+        overflow-y: auto; 
+        }
+
+        tr {
+            display: table-row; 
+        }
+
+        td, th {
+            width: auto;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #777a7e; 
+        }
+
+       
+        p a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold; 
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+
+        /* Optional: Style the scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</div>
+{% endblock %}
+
+
+

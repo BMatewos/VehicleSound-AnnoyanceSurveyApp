@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="text-align:center;">Experiments List</h2>
+
+<div style="text-align:center; margin-bottom: 20px;">
+    <a href="/experiments/manage?action=new" class="action-button" style="font-size: 16px;">➕ Add New Experiment</a>
+</div>
+
+<table border="0" cellpadding="5">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Created</th>
+        <th>Code</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in obj.data %}
+    <tr>
+        <td>{{ row.ExperimentID }}</td>
+        <td>{{ row.Description }}</td>
+        <td>{{ row.StartDate.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>{{ row.EndDate.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>{{ row.CreatedTime.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>
+            {% if row.ExperimentCode %}
+                <a href="{{ url_for('survey_welcome') }}?code={{ row.ExperimentCode }}" class="action-button" style="font-size: 14px;">🔗 View Survey</a>
+            {% else %}
+                None
+            {% endif %}
+        </td>
+        <td>
+            <a href="/experiments/manage?pkval={{ row.ExperimentID }}" class="action-button" style="background-color:#2ecc71; font-size: 14px;">✏️ Edit</a>
+            <a href="/experiments/manage?action=delete&pkval={{ row.ExperimentID }}" class="action-button action-delete" style="font-size: 14px;">🗑️ Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

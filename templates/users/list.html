@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+            <div>
+                
+
+                <div> <a href="manage?pkval=new">Create new</a> </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Edit</th>
+                            <th>Email</th>
+                            <th>FName</th>
+                            <th>LName</th>
+                            <th>CreatedTime</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for obj in obj.data  %}
+                        <tr>
+                            <td><a href="manage?pkval={{ obj.UserID }}">Edit</a></td>
+                            <td>{{ obj.email }}</td>
+                            <td>{{ obj.Fname }}</td>
+                            <td>{{ obj.Lname }}</td>
+                            <td>{{ obj.CreatedTime }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+               
+            </div>
+{% endblock %}

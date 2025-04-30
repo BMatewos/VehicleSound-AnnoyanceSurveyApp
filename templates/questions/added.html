@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="success-container" style="margin: 40px auto; padding: 20px; border: 2px solid #28a745; border-radius: 10px; width: fit-content; text-align: center; background-color: #e9f7ef;">
+    <h2 style="color: #28a745;">Survey Ready!</h2>
+
+    <p><strong>Experiment Code:</strong> {{ experiment_code }}</p>
+
+    <p>You can preview or test this survey at:</p>
+    <input type="text"
+           id="surveyLink"
+           value="{{ request.host_url }}survey_welcome?code={{ experiment_code }}"
+           readonly onclick="copyLink()"
+           style="width: 100%; padding: 5px; margin-top: 10px;">
+    
+    <div id="copyMsg" style="display: none; color: green; margin-top: 10px;">Link copied to clipboard!</div>
+
+    <br><br>
+
+    <a href="/survey_welcome?code={{ experiment_code }}" class="btn btn-secondary" style="margin-right: 10px;">📋 Test Survey</a>
+    <a href="/main" class="btn btn-light">🏠 Back to Main Menu</a>
+</div>
+
+<script>
+function copyLink() {
+    const input = document.getElementById("surveyLink");
+    input.select();
+    input.setSelectionRange(0, 99999); // For mobile
+    document.execCommand("copy");
+
+    const msg = document.getElementById("copyMsg");
+    msg.style.display = "block";
+    setTimeout(() => { msg.style.display = "none"; }, 2000);
+}
+</script>
+{% endblock %}

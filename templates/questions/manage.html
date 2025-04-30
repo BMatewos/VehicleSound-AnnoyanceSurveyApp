@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Manage Question</h2>
+
+<div class="error_text">
+    {% if obj.errors | length > 0 %}
+        {% for error in obj.errors %}
+            <div style="color:red;">{{ error }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<form action="/questions/manage?pkval={{ obj.data[0].QuestionID }}&action=update" method="POST">
+    <label for="QuestionText">Question Text:</label><br>
+    <input type="text" id="QuestionText" name="QuestionText" value="{{ obj.data[0].QuestionText }}"><br><br>
+
+    <label for="QuestionType">Question Type:</label><br>
+    <select name="QuestionType" id="QuestionType">
+        <option value="">-- Select Type --</option>
+        <option value="open-ended" {% if obj.data[0].QuestionType == 'open-ended' %}selected{% endif %}>Open-ended</option>
+        <option value="multiple-choice" {% if obj.data[0].QuestionType == 'multiple-choice' %}selected{% endif %}>Multiple Choice</option>
+        <option value="scale" {% if obj.data[0].QuestionType == 'scale' %}selected{% endif %}>Scale (1–3)</option>
+    </select><br><br>
+
+    <label for="Choices">Choices (as JSON list or comma-separated):</label><br>
+    <input type="text" id="Choices" name="Choices" value="{{ obj.data[0].Choices if obj.data[0].Choices is not none else '' }}"><br>
+    <small style="color: gray;">
+        Example: <code>car, truck, motorcycle</code> or <code>["car", "truck", "motorcycle"]</code>
+    </small><br><br>
+
+    <label for="ExperimentID">Experiment ID:</label><br>
+    <input type="text" id="ExperimentID" name="ExperimentID" value="{{ obj.data[0].ExperimentID }}"><br><br>
+
+    <label for="MediaID">Media ID:</label><br>
+    <input type="text" id="MediaID" name="MediaID" value="{{ obj.data[0].MediaID }}"><br><br>
+
+    <input type="submit" value="Update">
+</form>
+
+<br>
+<a href="/questions/manage?pkval={{ obj.data[0].QuestionID }}&action=delete"
+   onclick="return confirm('Are you sure you want to delete this question?');">
+   Delete
+</a>
+{% endblock %}

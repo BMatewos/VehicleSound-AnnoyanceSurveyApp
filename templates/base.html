@@ -1,0 +1,167 @@
+<html>
+<head>
+    <title>My page!!!</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script src='/static/plotly-2.35.2.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        /* Page background: ultra-light bluish white */
+        body {
+            background-color: #fafdff; /* almost pure white, just a whisper of blue */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Table styling */
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 20px auto;
+            font-size: 15px;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Soft floating shadow */
+        }
+
+        th, td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Table header styling */
+        th {
+            background-color: #b3d4fc; /* stronger clean light blue */
+            color: #333333;
+            font-weight: 700;
+            position: relative;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Zebra striping */
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        /* Smooth row hover effect */
+        tr {
+            transition: background-color 0.3s ease;
+        }
+        tr:hover {
+            background-color: #eaf4ff;
+        }
+
+        /* Sorting arrows styling */
+        th .sort-icons {
+            font-size: 12px;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: inline-block;
+        }
+        th .sort-icons span {
+            display: block;
+            line-height: 10px;
+            opacity: 0.5;
+        }
+        th.active-asc .sort-icons .asc,
+        th.active-desc .sort-icons .desc {
+            opacity: 1;
+            color: #00b894; /* active arrow color */
+        }
+
+        /* Main menu link styling */
+        .menu-link {
+            display: block;
+            margin-bottom: 30px;
+            font-size: 18px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .menu-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Action buttons */
+        .action-button {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            font-size: 13px;
+            color: white;
+            background-color: #3498db;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .action-button:hover {
+            background-color: #2980b9;
+        }
+        .action-delete {
+            background-color: #e74c3c;
+        }
+        .action-delete:hover {
+            background-color: #c0392b;
+        }
+    </style>
+
+    <script>
+    $(document).ready(function(){
+        // Sorting functionality
+        $('th').click(function(){
+            var table = $(this).closest('table');
+            var rows = table.find('tr:gt(0)').toArray();
+            var index = $(this).index();
+            var asc = !$(this).hasClass('active-asc');
+
+            // Clear previous sort states
+            table.find('th').removeClass('active-asc active-desc');
+
+            rows.sort(comparer(index));
+            if (!asc) { rows = rows.reverse(); }
+
+            if (asc) {
+                $(this).addClass('active-asc');
+            } else {
+                $(this).addClass('active-desc');
+            }
+
+            for (var i = 0; i < rows.length; i++) {
+                table.append(rows[i]);
+            }
+        });
+
+        function comparer(index){
+            return function(a, b){
+                var valA = getCellValue(a, index), valB = getCellValue(b, index);
+                return $.isNumeric(valA) && $.isNumeric(valB)
+                    ? valA - valB
+                    : valA.toString().localeCompare(valB);
+            };
+        }
+
+        function getCellValue(row, index){
+            return $(row).children('td').eq(index).text();
+        }
+
+        // Inject sort icons dynamically
+        $('th').each(function(){
+            $(this).append('<div class="sort-icons"><span class="asc">🔼</span><span class="desc">🔽</span></div>');
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <a class="menu-link" href="/main">⬅️ Main menu</a>
+
+    {% block content %}{% endblock %}
+</body>
+</html>

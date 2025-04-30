@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>🧪 Add New Experiment</h2>
+
+<div class="error_text">
+    {% if obj.errors | length > 0 %}
+        {% for error in obj.errors %}
+            <div style="color: red;"> {{ error }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<form action="/experiments/manage?action=insert" method="POST" style="margin-top: 20px;">
+    <label><strong>Start Date:</strong></label><br>
+    <input type="date" name="StartDate" id="StartDate" value="{{ obj.data[0].StartDate[:10] }}" required><br><br>
+
+    <label><strong>End Date:</strong></label><br>
+    <input type="date" name="EndDate" id="EndDate" value="{{ obj.data[0].EndDate[:10] }}" required><br><br>
+
+    <label><strong>Description:</strong></label><br>
+    <input type="text" name="Description" value="{{ obj.data[0].Description }}" required style="width: 400px;"><br><br>
+
+    <label><strong>Created On:</strong></label><br>
+    <input type="text" name="CreatedTime" value="{{ obj.data[0].CreatedTime[:10] }}" readonly style="background-color: #f0f0f0;"><br><br>
+
+    <input type="submit" value="➕ Create Experiment" class="btn btn-primary">
+</form>
+
+<br>
+<a href="/experiments/list" class="btn btn-secondary">← Back to Experiment List</a>
+
+<!-- Add this script at the bottom to enforce date rules -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const today = new Date().toISOString().split('T')[0];
+    const startDate = document.getElementById('StartDate');
+    const endDate = document.getElementById('EndDate');
+
+    startDate.min = today;
+    endDate.min = today;
+
+    // Default start date to today
+    if (!startDate.value || new Date(startDate.value) < new Date(today)) {
+        startDate.value = today;
+    }
+
+    startDate.addEventListener('change', function () {
+        endDate.min = this.value;
+        if (new Date(endDate.value) < new Date(this.value)) {
+            endDate.value = this.value;
+        }
+    });
+});
+</script>
+{% endblock %}

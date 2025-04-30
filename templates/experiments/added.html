@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Experiment Created Successfully!</h2>
+
+<p><strong>Survey Link:</strong></p>
+<div style="display: flex; align-items: center; gap: 10px;">
+    <input id="expCode" type="text" value="{{ request.host_url }}survey?code={{ code }}" readonly
+           style="width: 400px; padding: 5px; font-size: 14px;">
+    <button onclick="copyCode()" class="btn btn-secondary">📋 Copy</button>
+</div>
+
+<script>
+function copyCode() {
+    var copyText = document.getElementById("expCode");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile compatibility
+    document.execCommand("copy");
+    alert("Copied: " + copyText.value);
+}
+</script>
+
+<br><br>
+<a href="/main" class="btn btn-primary">🏠 Return to Main Menu</a>
+{% endblock %}
+

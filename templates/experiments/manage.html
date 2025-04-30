@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Edit Experiment</h2>
+
+<div class="error_text">
+    {% if obj.errors | length > 0 %}
+        {% for error in obj.errors %}
+            <div>{{ error }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<form action="manage?action=update&pkval={{ obj.data[0][obj.pk] }}" method="POST">
+    <label>Experiment ID:</label><br>
+    <input type="text" name="ExperimentID" value="{{ obj.data[0]['ExperimentID'] }}" readonly><br><br>
+
+    <label>Start Date:</label><br>
+    <input type="date" name="StartDate"
+           value="{{ obj.data[0]['StartDate'].strftime('%Y-%m-%d') if obj.data[0]['StartDate'] else '' }}"
+           required><br><br>
+
+    <label>End Date:</label><br>
+    <input type="date" name="EndDate"
+           value="{{ obj.data[0]['EndDate'].strftime('%Y-%m-%d') if obj.data[0]['EndDate'] else '' }}"
+           required><br><br>
+
+    <label>Description:</label><br>
+    <input type="text" name="Description" value="{{ obj.data[0]['Description'] }}" required><br><br>
+
+    <label>Updated On:</label><br>
+    <input type="text" name="UpdatedDate"
+           value="{{ obj.data[0]['UpdatedDate'].strftime('%Y-%m-%d') if obj.data[0]['UpdatedDate'] else '' }}"
+           readonly><br><br>
+
+    <input type="submit" value="Save Changes">
+</form>
+
+<hr>
+<h3>Survey Link</h3>
+<p>
+    You can share this survey link with participants:<br>
+    <code>
+        <a href="{{ url_for('survey') }}?code={{ obj.data[0]['ExperimentCode'] }}" target="_blank">
+            {{ request.host_url }}survey?code={{ obj.data[0]['ExperimentCode'] }}
+        </a>
+    </code>
+</p>
+
+{% endblock %}

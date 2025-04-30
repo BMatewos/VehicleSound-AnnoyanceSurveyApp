@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Responses List</h2>
+
+<div>
+    <a href="manage?pkval=new">➕ Add New Response</a>
+</div>
+
+<br>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Edit</th>
+            <th>User ID</th>
+            <th>Question ID</th>
+            <th>Answer</th>
+            <th>Duration</th>        <!-- Added -->
+            <th>Experiment ID</th>    <!-- Added -->
+            <th>Created Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for obj in obj.data %}
+        <tr>
+            <td><a href="manage?pkval={{ obj.ResponseID }}">Edit</a></td>
+            <td>{{ obj.UserID }}</td>
+            <td>{{ obj.QuestionID }}</td>
+            <td>{{ obj.Answer }}</td>
+            <td>{{ obj.Duration }}</td>         <!-- Added -->
+            <td>{{ obj.ExperimentID }}</td>     <!-- Added -->
+            <td>{{ obj.CreatedTime }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

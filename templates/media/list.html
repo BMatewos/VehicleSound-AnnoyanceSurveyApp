@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>📁 Media List</h2>
+
+    <div style="margin-bottom: 15px;">
+        <a href="manage?pkval=new">➕ Add New Media</a>
+    </div>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead style="background-color: #f2f2f2;">
+            <tr>
+                <th>Edit</th>
+                <th>Media ID</th>        <!-- Added -->
+                <th>File Path</th>
+                <th>Type</th>
+                <th>Duration (s)</th>
+                <th>Experiment ID</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in obj.data %}
+            <tr>
+                <td><a href="manage?pkval={{ obj.MediaID }}">Edit</a></td>
+                <td>{{ obj.MediaID }}</td>      <!-- Added -->
+                <td>{{ obj.FilePath }}</td>
+                <td>{{ obj.AutomobileType }}</td>
+                <td>{{ obj.Duration }}</td>
+                <td>{{ obj.ExperimentID }}</td>
+                <td>{{ obj.CreatedTime }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/main">← Back to Main Menu</a>
+{% endblock %}

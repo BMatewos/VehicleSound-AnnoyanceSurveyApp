@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="success-container" style="margin: 40px auto; padding: 20px; border: 2px solid #28a745; border-radius: 10px; width: fit-content; text-align: center; background-color: #e9f7ef;">
+    <h2 style="color: #28a745;">✅ Question Added Successfully</h2>
+
+    {% if experiment_code %}
+        <p><strong>Experiment Code:</strong> {{ experiment_code }}</p>
+    {% endif %}
+    <p><strong>Media ID:</strong> {{ media_id }}</p>
+
+    {% if experiment_code %}
+        <p>You can preview or test this survey at:</p>
+
+        <input id="surveyLink"
+               type="text"
+               value="http://127.0.0.1:5000/survey_welcome?code={{ experiment_code }}"
+               readonly
+               onclick="copyLink()"
+               style="padding: 6px; font-size: 16px; width: 100%; max-width: 420px; cursor: pointer;" />
+
+        <small id="copyMsg" style="color: gray;">(Click to copy the link)</small>
+
+        <p style="margin-top: 10px;">
+            <a href="/survey_welcome?code={{ experiment_code }}" target="_blank" class="btn btn-success">
+                🚀 Test Survey
+            </a>
+        </p>
+    {% else %}
+        <p style="color:red;">Experiment code is missing. Please try again.</p>
+    {% endif %}
+
+    <div style="margin-top: 30px;">
+        <a href="/questions/manage?action=new&experiment_id={{ experiment_id }}&media_id={{ media_id }}"
+           class="btn btn-secondary" style="margin-right: 10px;">➕ Add Another Question</a>
+
+        <a href="/main" class="btn btn-primary">🏠 Back to Main Menu</a>
+    </div>
+</div>
+
+<!-- JavaScript added to show "Link copied!" -->
+<script>
+function copyLink() {
+    const input = document.getElementById("surveyLink");
+    const msg = document.getElementById("copyMsg");
+
+    input.select();
+    input.setSelectionRange(0, 99999); // For mobile
+    document.execCommand("copy");
+
+    msg.innerText = "✅ Link copied!";
+    msg.style.color = "green";
+
+    setTimeout(() => {
+        msg.innerText = "(Click to copy the link)";
+        msg.style.color = "gray";
+    }, 2000);
+}
+</script>
+{% endblock %}
+

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>🔊 Now Playing: {{ media.AutomobileType }}</h2>
+
+    <audio controls autoplay style="margin-bottom: 20px;">
+        <source src="{{ url_for('static', filename=media.FilePath) }}" type="audio/mpeg">
+        Your browser does not support the audio element. ({{ media.FilePath }})
+    </audio>
+
+    <form method="POST" action="/survey?code={{ code }}&step={{ step }}&user_id={{ user_id }}">
+        <!-- Hidden fields -->
+        <input type="hidden" name="start_time" value="{{ datetime_now }}">
+        <input type="hidden" name="experiment_id" value="{{ media.ExperimentID }}">
+        <input type="hidden" name="media_id" value="{{ media.MediaID }}">
+        <input type="hidden" name="audio_path" value="{{ media.FilePath }}">
+
+        {% for q in questions %}
+            <div class="question-block" style="margin-bottom: 20px;">
+                <label><strong>{{ loop.index }}. {{ q.QuestionText }}</strong></label>
+
+                {% if q.QuestionType == 'scale' %}
+                    <div style="margin-top: 8px;">
+                        <select name="q_{{ q.QuestionID }}" required style="width: 100%; padding: 5px;">
+                            <option value="">-- Select --</option>
+                            <option value="1">1 - Not Annoying</option>
+                            <option value="2">2 - Neutral</option>
+                            <option value="3">3 - Very Annoying</option>
+                        </select>
+                    </div>
+
+                {% elif q.QuestionType == 'multiple-choice' %}
+                    <div class="choice-group" style="margin-top: 8px;">
+                        {% if q.Choices %}
+                            {% for choice in q.Choices %}
+                                <label class="choice-button" style="display: block; margin-top: 5px;">
+                                    <input type="radio" name="q_{{ q.QuestionID }}" value="{{ choice }}" required>
+                                    {{ choice }}
+                                </label>
+                            {% endfor %}
+                        {% else %}
+                            <div style="color: red;">⚠️ No choices defined for this question.</div>
+                        {% endif %}
+                    </div>
+
+                {% else %}
+                    <div style="margin-top: 8px;">
+                        <textarea name="q_{{ q.QuestionID }}" rows="3" placeholder="Your answer..." required style="width: 100%;"></textarea>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="submit-block" style="margin-top: 20px; text-align: center;">
+            <button type="submit" style="padding: 10px 30px; font-size: 16px;">Next ▶️</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

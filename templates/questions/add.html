@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>➕ Add New Question</h2>
+
+<div class="error_text">
+    {% if obj.errors | length > 0 %}
+        {% for error in obj.errors %}
+            <div style="color:red;">{{ error }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<form action="/questions/manage?action=insert" method="POST" style="max-width: 700px;">
+    <label for="QuestionText"><strong>Question Text:</strong></label><br>
+    <input type="text" name="QuestionText" id="QuestionText"
+           value="{{ obj.data[0].QuestionText or '' }}" style="width: 100%;" required><br><br>
+
+    <label for="QuestionType"><strong>Question Type:</strong></label><br>
+    <select name="QuestionType" id="QuestionType" style="width: 100%;" required>
+        <option value="">-- Select Type --</option>
+        <option value="open-ended" {% if obj.data[0].QuestionType == 'open-ended' %}selected{% endif %}>Open-ended</option>
+        <option value="multiple-choice" {% if obj.data[0].QuestionType == 'multiple-choice' %}selected{% endif %}>Multiple Choice</option>
+        <option value="scale" {% if obj.data[0].QuestionType == 'scale' %}selected{% endif %}>Scale (1–3)</option>
+    </select><br><br>
+
+    <label for="Choices"><strong>Choices</strong> (JSON list for Multiple Choice):</label><br>
+    <input type="text" id="Choices" name="Choices"
+           value="{{ obj.data[0].Choices or '' }}" style="width: 100%;"><br>
+    <small style="color: gray;">Example: <code>["Yes", "No", "Maybe"]</code>. Leave blank for open-ended or scale.</small><br><br>
+
+    <label><strong>Experiment ID:</strong></label><br>
+    <input type="text" name="ExperimentID" value="{{ obj.data[0].ExperimentID }}" readonly style="background-color: #f0f0f0;"><br><br>
+
+    <label><strong>Media ID:</strong></label><br>
+    <input type="text" name="MediaID" value="{{ obj.data[0].MediaID }}" readonly style="background-color: #f0f0f0;"><br><br>
+
+    <input type="submit" value="➕ Submit Question" class="btn btn-primary">
+</form>
+
+<!--  Optional: User finishes when ready -->
+<div style="margin-top: 20px;">
+    <a href="/questions/finish?experiment_id={{ obj.data[0].ExperimentID }}" class="btn btn-success">
+         Finish Adding Questions
+    </a>
+</div>
+<script>
+    window.onload = function () {
+        document.getElementById("QuestionText").focus();
+    };
+</script>
+
+{% endblock %}

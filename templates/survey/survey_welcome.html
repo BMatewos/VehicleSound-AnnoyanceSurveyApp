@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; height: 80vh;">
+
+    <div style="background-color: white; padding: 40px 50px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); max-width: 700px; text-align: center; animation: fadeIn 1s;">
+        
+        <h1 style="font-size: 34px; font-weight: 700; margin-bottom: 20px;">🎉 Thank You for Participating!</h1>
+
+        <p style="font-size: 20px; margin-bottom: 30px; line-height: 1.6;">
+            Your participation helps us improve research based on real-world data.<br><br>
+            This survey will only take about <strong>5 minutes</strong> to complete.
+        </p>
+
+        <div style="text-align: left; font-size: 18px; margin-bottom: 30px; line-height: 1.8;">
+            <strong>Instructions:</strong>
+            <ul style="list-style-type: disc; padding-left: 20px;">
+                <li>Click the audio play button and listen carefully.</li>
+                <li>Answer the short questions that follow each clip.</li>
+                <li>Click submit when you are finished.</li>
+            </ul>
+        </div>
+
+        <a href="/survey?code={{ code }}&step=0" class="start-survey-button" style="font-size: 20px;">🎯 Start Survey</a>
+
+    </div>
+
+</div>
+
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Already in your base, but in case you want a special Start Survey button style */
+.start-survey-button {
+    display: inline-block;
+    padding: 14px 30px;
+    color: white;
+    background-color: #3498db;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.start-survey-button:hover {
+    background-color: #2980b9;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+}
+</style>
+{% endblock %}

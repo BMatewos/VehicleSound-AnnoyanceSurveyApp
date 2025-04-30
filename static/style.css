@@ -1,0 +1,237 @@
+/* ---------- GLOBAL ---------- */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(to right, #e0eafc, #cfdef3);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* ---------- HEADINGS ---------- */
+h1, h2, h3 {
+    color: #333;
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* ---------- TABLES ---------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+/* ---------- LINKS ---------- */
+a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- BUTTONS ---------- */
+button,
+input[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* ---------- FORMS ---------- */
+form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    max-width: 700px;
+    margin: auto;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="datetime"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* ---------- LOGIN PAGE ---------- */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-card {
+    background-color: white;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.error-msg,
+.error_text {
+    color: #b30000;
+    background-color: #ffe6e6;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* ---------- MAIN MENU ---------- */
+.list-group {
+    max-width: 500px;
+    margin: auto;
+}
+
+.list-group a {
+    display: block;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: background-color 0.3s;
+}
+
+.list-group a:hover {
+    background-color: #e6f0ff;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* ---------- SURVEY EXTRAS ---------- */
+.survey-intro {
+    background-color: #f5f8ff;
+    padding: 20px;
+    border-left: 5px solid #007BFF;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.survey-info {
+    margin-bottom: 20px;
+}
+
+.question-block {
+    background-color: #fff;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+textarea, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* ---------- Multiple Choice Buttons ---------- */
+.choice-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.choice-button {
+    padding: 10px 16px;
+    background-color: #e9ecef;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+}
+
+.choice-button:hover {
+    background-color: #d6e4f0;
+    border-color: #007BFF;
+}
+
+.choice-button input[type="radio"] {
+    display: none;
+}
+
+.choice-button input[type="radio"]:checked + span,
+.choice-button input[type="radio"]:checked {
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+}
+
+.submit-block {
+    text-align: center;
+    margin-top: 30px;
+}

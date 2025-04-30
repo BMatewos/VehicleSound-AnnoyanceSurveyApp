@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Survey - {{ experiment.Description }}{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>📋 Welcome to the Vehicle Sound Survey</h2>
+    <p>We're conducting this survey to understand how people perceive vehicle sounds.</p>
+
+    <div class="survey-info">
+        <p><strong>Experiment:</strong> {{ experiment.Description }}</p>
+        <p><strong>Survey Period:</strong> {{ experiment.StartDate }} to {{ experiment.EndDate }}</p>
+    </div>
+
+    <form id="survey-form" action="/submit_survey?code={{ experiment.ExperimentCode }}" method="POST">
+        <input type="hidden" name="StartedTime" id="StartedTime">
+        <input type="hidden" name="responses" id="responses">
+
+        {% for m in media %}
+        <div class="media-block">
+            <hr>
+            <h3>🔊 Now Playing</h3>
+            <audio controls>
+                <source src="{{ url_for('static', filename=m.FilePath) }}" type="audio/{{ m.FilePath.split('.')[-1] }}">
+                Your browser does not support the audio element.
+            </audio>
+
+            {% for q in m.questions %}
+            <div class="question-block" data-media="{{ m.FilePath }}">
+                <label for="question_{{ q.QuestionID }}"><strong>{{ loop.index }}. {{ q.QuestionText }}</strong></label>
+
+                {% if q.QuestionType == 'scale' %}
+                <select class="response-input" name="question_{{ q.QuestionID }}" id="question_{{ q.QuestionID }}" required>
+                    <option value="">-- Select --</option>
+                    <option value="1">1 - Not Annoying</option>
+                    <option value="2">2 - Neutral</option>
+                    <option value="3">3 - Very Annoying</option>
+                </select>
+
+                {% elif q.QuestionType == 'multiple-choice' %}
+                    {% if q.Choices %}
+                    <div class="choice-group">
+                        {% for choice in q.Choices.split(",") %}
+                        <label class="choice-button">
+                            <input type="radio" class="response-input" name="question_{{ q.QuestionID }}" value="{{ choice.strip() }}" required>
+                            {{ choice.strip() }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p><em style="color:red;">⚠️ No choices provided.</em></p>
+                    {% endif %}
+
+                {% else %}
+                <textarea class="response-input" name="question_{{ q.QuestionID }}" id="question_{{ q.QuestionID }}" rows="3" placeholder="Type your answer here..." required></textarea>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="submit-block">
+            <button type="submit">✅ Submit Survey</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById("StartedTime").value = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+    document.getElementById("survey-form").addEventListener("submit", function (e) {
+        const responseData = [];
+        const mediaBlocks = document.querySelectorAll(".media-block");
+
+        mediaBlocks.forEach(block => {
+            const audioPath = block.querySelector("audio source").getAttribute("src");
+            const questions = block.querySelectorAll(".question-block");
+
+            const answerSet = {};
+            questions.forEach(q => {
+                const qid = q.querySelector("[name]").getAttribute("name");
+                const inputs = q.querySelectorAll("[name='" + qid + "']");
+
+                let value = null;
+                if (inputs[0].type === "radio") {
+                    inputs.forEach(input => {
+                        if (input.checked) value = input.value;
+                    });
+                } else {
+                    value = inputs[0].value;
+                }
+
+                answerSet[qid] = value;
+            });
+
+            responseData.push({
+                audio: audioPath,
+                answers: answerSet
+            });
+        });
+
+        document.getElementById("responses").value = JSON.stringify(responseData);
+    });
+</script>
+{% endblock %}

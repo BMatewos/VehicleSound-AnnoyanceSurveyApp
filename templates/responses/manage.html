@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Manage Response</h2>
+
+<div class="error_text">
+    {% if obj.errors | length > 0 %}
+        {% for error in obj.errors %}
+            <div>{{ error }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div>
+    <form action="/responses/manage?pkval={{ obj.data[0].ResponseID }}&action=update" method="POST">
+        <label for="UserID">User ID:</label><br>
+        <input type="text" id="UserID" name="UserID" value="{{ obj.data[0].UserID }}"><br><br>
+
+        <label for="QuestionID">Question ID:</label><br>
+        <input type="text" id="QuestionID" name="QuestionID" value="{{ obj.data[0].QuestionID }}"><br><br>
+
+        <label for="Answer">Answer:</label><br>
+        <input type="text" id="Answer" name="Answer" value="{{ obj.data[0].Answer }}"><br><br>
+
+        <input type="submit" value="Update Response">
+    </form>
+</div>
+
+<div>
+    <br><br>
+    <a href="/responses/manage?pkval={{ obj.data[0].ResponseID }}&action=delete">🗑️ Delete Response</a>
+</div>
+{% endblock %}

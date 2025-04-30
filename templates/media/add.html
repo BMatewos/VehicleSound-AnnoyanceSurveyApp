@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>🎧 Add New Media</h2>
+
+<div class="error_text">
+    {% if obj.errors|length > 0 %}
+        {% for error in obj.errors %}
+            <div style="color:red;"> {{ error }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<form action="/media/manage?action=insert" method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
+    <label for="file"><strong>Upload Media File:</strong></label><br>
+    <input type="file" id="file" name="file" accept="audio/*" required><br><br>
+
+    <label for="AutomobileType"><strong>Automobile Type:</strong></label><br>
+    <select id="AutomobileType" name="AutomobileType" required>
+        <option value="">-- Select Type --</option>
+        <option value="car" {% if obj.data[0].AutomobileType == 'car' %}selected{% endif %}>Car</option>
+        <option value="truck" {% if obj.data[0].AutomobileType == 'truck' %}selected{% endif %}>Truck</option>
+        <option value="motorcycle" {% if obj.data[0].AutomobileType == 'motorcycle' %}selected{% endif %}>Motorcycle</option>
+    </select><br><br>
+
+    <label for="Duration"><strong>Duration (in seconds):</strong></label><br>
+    <input type="number" step="0.01" id="Duration" name="Duration"
+           value="{{ obj.data[0].Duration or '' }}" required><br><br>
+
+    <label for="ExperimentID"><strong>Experiment ID:</strong></label><br>
+    <input type="number" id="ExperimentID" name="ExperimentID"
+           value="{{ obj.data[0].ExperimentID or request.args.get('experiment_id', '') }}" required><br><br>
+
+    <input type="submit" value="➕ Add Media" class="btn btn-primary">
+</form>
+
+<br><br>
+<a href="/media/list" class="btn btn-secondary">← Back to Media List</a>
+{% endblock %}

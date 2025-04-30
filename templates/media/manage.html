@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{% if obj.data[0][obj.pk] %}✏️ Edit Media{% else %}➕ Add Media{% endif %}</h2>
+
+<div class="error_text">
+    {% if obj.errors|length > 0 %}
+        {% for error in obj.errors %}
+            <div style="color:red;">{{ error }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<form action="/media/manage?pkval={{ obj.data[0].MediaID }}&action={% if obj.data[0][obj.pk] %}update{% else %}insert{% endif %}" 
+      method="POST" enctype="multipart/form-data">
+
+    <label for="file">Upload Media File:</label><br>
+    <input type="file" id="file" name="file" accept="audio/*" {% if not obj.data[0].FilePath %}required{% endif %}><br>
+
+    {% if obj.data[0].FilePath %}
+        <small>Currently uploaded: 
+            <a href="/static/{{ obj.data[0].FilePath }}" target="_blank">{{ obj.data[0].FilePath }}</a>
+        </small><br>
+    {% endif %}
+    <br>
+
+    <label for="AutomobileType">Automobile Type:</label><br>
+    <select id="AutomobileType" name="AutomobileType" required>
+        <option value="">-- Select Type --</option>
+        <option value="car" {% if obj.data[0].AutomobileType == 'car' %}selected{% endif %}>Car</option>
+        <option value="truck" {% if obj.data[0].AutomobileType == 'truck' %}selected{% endif %}>Truck</option>
+        <option value="motorcycle" {% if obj.data[0].AutomobileType == 'motorcycle' %}selected{% endif %}>Motorcycle</option>
+    </select><br><br>
+
+    <label for="Duration">Duration (in seconds):</label><br>
+    <input type="number" step="0.01" id="Duration" name="Duration" value="{{ obj.data[0].Duration }}" required><br><br>
+
+    <label for="ExperimentID">Experiment ID:</label><br>
+    <input type="number" id="ExperimentID" name="ExperimentID" value="{{ obj.data[0].ExperimentID }}" required><br><br>
+
+    <input type="submit" value="{% if obj.data[0][obj.pk] %}💾 Update Media{% else %}📤 Upload Media{% endif %}">
+</form>
+
+{% if obj.data[0][obj.pk] %}
+    <br>
+    <a href="/media/manage?pkval={{ obj.data[0].MediaID }}&action=delete"
+       onclick="return confirm('Are you sure you want to delete this media file?');">🗑️ Delete Media</a>
+{% endif %}
+
+<br><br>
+<a href="/media/list">← Back to Media List</a>
+{% endblock %}
